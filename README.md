@@ -1,7 +1,9 @@
 # prueba-angular
 
-## Install and run test
+## Install App
 npm i
+
+## Run Tests
 npx jest
 
 ## Docker Build
