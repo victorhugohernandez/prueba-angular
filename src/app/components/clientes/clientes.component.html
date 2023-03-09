@@ -1,0 +1,94 @@
+<h1>Clientes</h1>
+<table class="header">
+    <tr class="header">
+        <td class="header">
+            <div class="izquierda">
+                <input type="text" placeholder="Buscar" (keyup)="buscar($event.target)"/>
+            </div>
+        </td>
+        <td class="header">
+            <div class="derecha">
+                <button (click)="nuevo()">Nuevo</button>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div *ngIf="grid">
+<table>
+    <thead>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Contraseña</th>
+        <th>Estado</th>
+        <th>Editar</th>
+        <th>Eliminar</th>
+    </thead>
+    <tr *ngFor="let c of clientes">
+        <td>{{c.nombre}}</td>
+        <td>{{c.direccion}}</td>
+        <td>{{c.telefono}}</td>
+        <td>{{c.contrasenia}}</td>
+        <td *ngIf="c.estado == false">Inactivo</td>
+        <td *ngIf="c.estado == true">Activo</td>
+        <td><button (click)="editar(c)">Editar</button></td>
+        <td *ngIf="c.estado == true"><button (click)="eliminar(c)">Eliminar</button></td>
+    </tr>
+</table>
+</div>
+
+<div *ngIf="!grid">
+    <form [formGroup]="formGroup">
+        <table>
+        <tr>
+            <td class="header"> 
+                <label>Nombre</label>
+                <input type="text" formControlName="nombre">
+            </td>
+            <td class="header">
+                <label>ID Cliente</label>
+                <input type="text" formControlName="idCliente" (keypress)="numberOnly($event)">
+            </td>
+        </tr>
+        <tr>
+            <td class="header"> 
+                <label>Dirección</label>
+                <input type="text" formControlName="direccion">
+            </td>
+            <td class="header">
+                <label>Teléfono</label>
+                <input type="text" formControlName="telefono" (keypress)="numberOnly($event)">
+            </td>
+        </tr>
+        <tr>
+            <td class="header">
+                <label>Genero</label>
+                <input type="text" formControlName="genero">
+            </td>
+            <td class="header">
+                <label>Identificación</label>
+                <input type="text" formControlName="identificacion">
+            </td>
+        </tr>
+        <tr>
+            <td class="header">
+                <label>Edad</label>
+                <input type="text" formControlName="edad" (keypress)="numberOnly($event)" maxlength="3">
+            </td>
+            <td class="header">
+                <label>Contraseña</label>
+                <input type="password" formControlName="contrasenia">
+            </td>
+        </tr>
+        <tr>
+            <td class="header"></td>
+            <td class="header centro">
+                <button (click)="onSubmit()" [disabled]="formGroup.invalid" *ngIf="!edicion">Guardar</button>
+                <button (click)="edit()" [disabled]="formGroup.invalid" *ngIf="edicion">Editar</button>
+                <button (click)="cancelar()">Cancelar</button>
+            </td>
+        </tr>     
+    </table>
+</form>
+</div>

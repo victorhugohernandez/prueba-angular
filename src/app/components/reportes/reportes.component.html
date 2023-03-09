@@ -1,0 +1,57 @@
+<h1>Reportes</h1>
+<form [formGroup]="formGroup">
+    <table>
+    <tr>
+        <td class="header">
+            <label>ID Cliente</label>
+            <input type="text" formControlName="idCliente" (keypress)="numberOnly($event)" maxlength="10">
+        </td>
+    </tr>
+    <tr>
+        <td class="header"> 
+            <label>Fecha Inicio (AAAA-MM-DD)</label>
+            <input 
+                type="text" formControlName="fechaInicio" (keypress)="numberOnly($event)" maxlength="10">
+            <div *ngIf="f.fechaInicio.errors?.pattern">Formato Invalido</div>
+        </td>
+    </tr>
+    <tr>
+        <td class="header"> 
+            <label>Fecha Fin (AAAA-MM-DD)</label>
+            <input  
+                type="text" formControlName="fechaFin" (keypress)="numberOnly($event)" maxlength="10">
+            <div *ngIf="f.fechaFin.errors?.pattern">Formato Invalido</div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="derecha">
+                <button (click)="descargar()" *ngIf="records.length > 0">Descargar PDF</button>
+            <button (click)="buscar()" [disabled]="formGroup.invalid">Buscar</button>
+            </div>
+        </td>
+    </tr>
+    </table>
+</form>
+    <table>
+        <thead>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Cuenta</th>
+            <th>Tipo</th>
+            <th>Saldo Inicial</th>
+            <th>Estado</th>
+            <th>Movimiento</th>
+            <th>Saldo Disponible</th>
+        </thead>
+        <tr *ngFor="let c of records">
+            <td>{{c.fecha | date : "yyyy-MM-dd"}}</td>
+            <td>{{c.cliente}}</td>
+            <td>{{c.numeroCuenta}}</td>
+            <td>{{c.tipo}}</td>
+            <td>{{c.saldoInicial}}</td>
+            <td>{{c.estado}}</td>
+            <td>{{c.movimiento}}</td>
+            <td>{{c.saldoDisponible}}</td>
+        </tr>
+    </table>

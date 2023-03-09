@@ -1,0 +1,73 @@
+<h1>Cuentas</h1>
+<table class="header">
+    <tr class="header">
+        <td class="header">
+            <div class="izquierda">
+                <input type="text" placeholder="Buscar" (keyup)="buscar($event.target)"/>
+            </div>
+        </td>
+        <td class="header">
+            <div class="derecha">
+                <button (click)="nuevo()">Nuevo</button>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div *ngIf="grid">
+    <table>
+        <thead>
+            <th>Cuenta</th>
+            <th>Tipo</th>
+            <th>Saldo Inicial</th>
+            <th>Estado</th>
+            <th>Cliente</th>
+            <th>Eliminar</th>
+        </thead>
+        <tr *ngFor="let c of records">
+            <td>{{c.numeroCuenta}}</td>
+            <td>{{c.tipoCuenta}}</td>
+            <td>{{c.saldoInicial}}</td>
+            <td>{{c.estado}}</td>
+            <td>{{c.idCliente.nombre}}</td>
+            <td><button (click)="eliminar(c)">Eliminar</button></td>
+        </tr>
+    </table>
+</div>
+
+<div *ngIf="!grid">
+    <form [formGroup]="formGroup">
+        <table>
+        <tr>
+            <td class="header"> 
+                <label>Cuenta</label>
+                <input type="text" formControlName="numeroCuenta" (keypress)="numberOnly($event)" maxlength="10">
+            </td>
+            <td class="header">
+                <label>Tipo</label>
+                <input type="text" formControlName="tipoCuenta">
+            </td>
+        </tr>
+        <tr>
+            <td class="header"> 
+                <label>Saldo Inicial</label>
+                <input type="text" formControlName="saldoInicial" (keypress)="numberOnly($event)" maxlength="10">
+            </td>
+            <td class="header">
+                <label>Cliente</label>
+                <select formControlName="idCliente">
+                    <option [value]="item.idCliente" *ngFor="let item of clientes">{{item.nombre}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="header"></td>
+            <td class="header centro">
+                <button (click)="onSubmit()" [disabled]="formGroup.invalid" *ngIf="!edicion">Guardar</button>
+                <button (click)="edit()" [disabled]="formGroup.invalid" *ngIf="edicion">Editar</button>
+                <button (click)="cancelar()">Cancelar</button>
+            </td>
+        </tr>     
+    </table>
+    </form>
+</div>
